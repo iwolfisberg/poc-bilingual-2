@@ -36,202 +36,77 @@ npm run build
 
 ## Utilisation
 
-### HTML
+### Système de traduction bilingue
 
-Inclure un fichier _header.html_ depuis un fichier HTML
+Ce projet intègre un système de traduction qui permet de basculer entre le français et l'anglais. La langue choisie est sauvegardée dans le navigateur et persiste lors de la navigation entre les pages.
+
+#### Structure des fichiers de traduction
+
+Les traductions sont stockées dans des fichiers JSON à la racine du projet :
+
+- `fr.json` : contient toutes les traductions en français
+- `en.json` : contient toutes les traductions en anglais
+
+Exemple de structure :
+
+```json
+{
+  "home.title": "Bienvenue",
+  "home.description": "Description de la page",
+  "page2.title": "Page 2"
+}
+```
+
+#### Ajouter un élément traduisible dans le HTML
+
+Pour qu'un élément soit automatiquement traduit, ajoutez l'attribut `data-translation` avec une clé correspondant à celle dans les fichiers JSON :
 
 ```html
-<include src="components/header.html"></include>
+<h1 data-translation="home.title">Texte par défaut</h1>
+<p data-translation="home.description">Description par défaut</p>
 ```
 
-### SCSS
+#### Boutons de changement de langue
 
-Inclure un fichier _main.scss_ depuis un fichier HTML
+Les boutons de langue doivent avoir :
+
+- La classe `lang-switch` pour être détectés par le script
+- L'attribut `data-lang` avec le code de la langue (ex: "fr" ou "en")
 
 ```html
-<link rel="stylesheet" href="scss/main.scss" />
+<button class="lang-switch" data-lang="fr">FR</button>
+<button class="lang-switch" data-lang="en">EN</button>
 ```
 
-Inclure un fichier _\_base.scss_ depuis un fichier SCSS
+#### Fonctionnement technique
 
-```scss
-@import "base";
+1. **Au chargement de la page** : Le script vérifie si une langue a été sauvegardée dans le localStorage. Si oui, il l'applique, sinon il utilise le français par défaut.
+
+2. **Lors du clic sur un bouton de langue** :
+
+   - La nouvelle langue est sauvegardée dans le localStorage
+   - Tous les éléments avec `data-translation` sont mis à jour
+   - La préférence est conservée lors de la navigation
+
+3. **Persistance** : Le choix de langue reste enregistré même après fermeture du navigateur grâce au localStorage.
+
+#### Ajouter une nouvelle langue
+
+1. Créer un nouveau fichier JSON (ex: `de.json` pour l'allemand)
+2. Dans `main.js`, ajouter l'import et l'entrée dans `translations_map` :
+
+```js
+import deTranslations from "../de.json";
+
+const translations_map = {
+  en: enTranslations,
+  fr: frTranslations,
+  de: deTranslations,
+};
 ```
 
-### JS
-
-Inclure un fichier _main.js_ depuis un fichier HTML
+3. Ajouter un bouton dans le HTML :
 
 ```html
-<script src="js/main.js" type="module"></script>
-```
-
-Inclure un fichier _carousel.js_ depuis un fichier JS
-
-```js
-import "./carousel.js";
-```
-
-## Exemples d'utilisation de packages externes
-
-### [AOS](https://michalsnik.github.io/aos)
-
-Installer le paquet avec NPM
-
-```
-npm install aos@next
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import AOS from "aos";
-```
-
-Inclure la CSS depuis un fichier SCSS
-
-```SCSS
-@import "../../node_modules/aos/dist/aos.css";
-```
-
-### [Bootstrap](https://getbootstrap.com)
-
-Installer le paquet avec NPM
-
-```
-npm install bootstrap
-```
-
-Inclure la SCSS depuis un fichier SCSS
-
-```SCSS
-@import "bootstrap/scss/bootstrap-grid";
-```
-
-### [Flickity](https://flickity.metafizzy.co)
-
-Installer le paquet avec NPM
-
-```
-npm install flickity
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Flickity from "flickity";
-```
-
-Inclure la CSS depuis un fichier SCSS
-
-```SCSS
-@import "../../node_modules/flickity/dist/flickity.css";
-```
-
-### [Font Awesome](https://fontawesome.com/)
-
-Installer le paquet avec NPM
-
-```
-npm install @fortawesome/fontawesome-free
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import "@fortawesome/fontawesome-free/js/all.js";
-```
-
-### [GSAP](https://greensock.com/gsap/)
-
-Installer le paquet avec NPM
-
-```
-npm install gsap
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import gsap from "gsap";
-```
-
-Inclure les éventuels plugins
-
-```js
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
-```
-
-### [Masonry](https://masonry.desandro.com)
-
-Installer le paquet avec NPM
-
-```
-npm install masonry-layout
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Masonry from "masonry-layout";
-```
-
-### [ScrollMagic](https://scrollmagic.io)
-
-Installer le paquet avec NPM
-
-```
-npm install scrollmagic
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import ScrollMagic from "scrollmagic";
-```
-
-### [Swiper](https://swiperjs.com)
-
-Installer le paquet avec NPM
-
-```
-npm install swiper@6
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Swiper from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
-
-Swiper.use([Navigation, Pagination]);
-```
-
-Inclure la SCSS depuis un fichier SCSS
-
-```SCSS
-@import "swiper/swiper";
-```
-
-### [three.js](https://threejs.org)
-
-Installer le paquet avec NPM
-
-```
-npm install three
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import * as THREE from "three";
-```
-
-## Exemple
-
-Un exemple avec l'installation des packages ci-desssus est disponible sur la branche _examples_
-
-```
-git checkout examples
+<button class="lang-switch" data-lang="de">DE</button>
 ```
