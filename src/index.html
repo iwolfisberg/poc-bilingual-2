@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>eikon parcel starter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="scss/main.scss" />
+  </head>
+  <body>
+    <!--
+      SYSTÈME DE TRADUCTION :
+      Pour qu'un élément HTML soit traduit automatiquement, il faut lui ajouter l'attribut "data-translation".
+      La valeur de cet attribut correspond à une clé dans les fichiers de traduction (fr.json et en.json).
+    -->
+
+    <!--
+      BOUTONS DE CHANGEMENT DE LANGUE :
+      - classe "lang-switch" : identifie les boutons qui permettent de changer de langue
+      - attribut "data-lang" : définit la langue cible (ex: "fr" pour français, "en" pour anglais)
+      - attribut "data-translation" : la clé "btnLang" permet de traduire le texte du bouton lui-même
+    -->
+    <button class="lang-switch" data-lang="fr">FR</button>
+    <button class="lang-switch" data-lang="en">EN</button>
+
+    <!--
+      ÉLÉMENTS TRADUITS :
+      - Le titre utilise la clé "home.title" pour récupérer sa traduction
+      - Le texte initial "Hello world FR" sera remplacé par le contenu du fichier JSON correspondant
+    -->
+    <h1 data-translation="home.title">Hello world FR</h1>
+
+    <!--
+      - Le paragraphe utilise la clé "home.description"
+      - À chaque changement de langue, le texte sera automatiquement mis à jour
+    -->
+    <p data-translation="home.description">Test de langue</p>
+
+    <a href="page2.html" data-translation="page2.title">Page 2</a>
+
+    <!-- Le script JavaScript qui gère toute la logique de traduction -->
+    <script src="js/main.js" type="module"></script>
+  </body>
+</html>
